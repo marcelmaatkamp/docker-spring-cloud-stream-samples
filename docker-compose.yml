@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
  rabbitmq:
@@ -13,16 +13,36 @@ services:
   volumes:
    - rabbitmq:/var/lib/rabbitmq/mnesia
 
- java:
+ demo:
   image: java/example
   build:
    context: .
   ports:
    - "8080:8080"
   volumes:
-   - ./application:/application
+   - ./application/demo:/application
    - gradle:/root/.gradle
    - gradle:/application/.gradle
+
+ registry:
+  image: java/example
+  build:
+   context: .
+  ports:
+   - "8081:8080"
+  volumes:
+   - ./application/registry_server:/application
+   - gradle:/root/.gradle
+   - gradle:/application/.gradle
+
+ rxjava-processor:
+  build:
+   context: .
+   dockerfile: dockerfiles/spring-cloud-stream-samples/rxjava-processor/Dockerfile
+  command: mvn spring-boot:run
+  volumes:
+   - maven:/root/.m2
+   - ./spring-cloud-stream-samples:/application
 
  smb:
   image: grossws/smbd
@@ -35,3 +55,4 @@ services:
 volumes:
  rabbitmq:
  gradle:
+ maven: 

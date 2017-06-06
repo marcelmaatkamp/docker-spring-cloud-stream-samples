@@ -1,0 +1,3 @@
+[submodule "spring-cloud-stream-samples"]
+	path = spring-cloud-stream-samples
+	url = https://github.com/spring-cloud/spring-cloud-stream-samples.git
